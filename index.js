@@ -1,7 +1,6 @@
 const { exec } = require("child_process");
 const ora = require("ora");
 const chalk = require("chalk");
-const List = require("prompt-list");
 const inquirer = require("inquirer");
 
 let localSettingsFile = null;
@@ -24,60 +23,48 @@ async function main() {
         "Checking to see what Azure Subscriptions you have available...";
       spinner.start();
 
-      let subscriptions = await getSubscriptions();
-
-      spinner.stop();
-
-      let subscriptionResult = await inquirer.prompt([
+      let result = await inquirer.prompt([
         {
           type: "list",
-          name: "selection",
+          name: "subscription",
           message: "Select a subscription",
-          choices: subscriptions,
+          choices: await getSubscriptions(spinner),
         },
-      ]);
-
-      // list out all available subscriptions for user to pick from
-      spinner.text = "Checking for resource groups in subscription..";
-      spinner.start();
-
-      let resourceGroups = await getResourceGroups(
-        subscriptionResult.selection
-      );
-
-      spinner.stop();
-
-      let resourceGroupResult = await inquirer.prompt([
         {
-          type: "list",
-          name: "selection",
-          choices: resourceGroups,
-        },
-      ]);
-
-      let appResult = await inquirer.prompt([
-        {
-          message: "Enter the name of your Static App",
           type: "input",
-          name: "selection",
+          name: "resourceGroup",
+          message: "Enter the resource group name:",
+        },
+        {
+          type: "input",
+          name: "appName",
+          message: "Enter the name of your Static App:",
+        },
+        {
+          type: "confirm",
+          name: "confirm",
+          message: (answers) => {
+            return `You are about to upload your local application settings to "${answers.appName}". This will overwrite any settings that you have. It will not delete any settings. Are you sure you want to continue?`;
+          },
         },
       ]);
 
-      // upload to static app
-      spinner.text =
-        "Uploading local.settings.json. Properties will be created or overwritte, but not deleted...";
-      spinner.start();
+      if (result.confirm) {
+        // upload to static app
+        spinner.text = "Uploading local.settings.json...";
+        spinner.start();
 
-      await uploadSettings(
-        subscriptionResult.selection,
-        resourceGroupResult.selection,
-        appResult.selection,
-        settings
-      );
+        await uploadSettings(
+          result.subscription,
+          result.resourceGroup,
+          result.appName,
+          settings
+        );
 
-      spinner.stop();
+        spinner.stop();
 
-      console.log(`${chalk.green("✔︎")} Settings successfully uploaded`);
+        console.log(`${chalk.green("✔︎")} Settings successfully uploaded`);
+      }
     } else {
       console.log(
         "Could not find a local.settings.json file in the current directory"
@@ -88,7 +75,7 @@ async function main() {
   }
 }
 
-async function getSubscriptions() {
+async function getSubscriptions(spinner) {
   return new Promise((resolve, reject) => {
     exec("az account list -o json", (error, stdout, stdin) => {
       if (error) reject(error);
@@ -99,25 +86,27 @@ async function getSubscriptions() {
         return { name: item.name, value: item.id };
       });
 
+      spinner.stop();
+
       resolve(subscriptions);
     });
   });
 }
 
-async function getResourceGroups(subscription) {
-  return new Promise((resolve, reject) => {
-    exec(
-      `az group list --subscription ${subscription} -o json`,
-      (error, stdout, stdin) => {
-        if (error) reject(error);
+// async function getResourceGroups(subscription) {
+//   return new Promise((resolve, reject) => {
+//     exec(
+//       `az group list --subscription ${subscription} -o json`,
+//       (error, stdout, stdin) => {
+//         if (error) reject(error);
 
-        const result = JSON.parse(stdout);
+//         const result = JSON.parse(stdout);
 
-        resolve(result);
-      }
-    );
-  });
-}
+//         resolve(result);
+//       }
+//     );
+//   });
+// }
 
 async function uploadSettings(
   subscription,
@@ -128,7 +117,9 @@ async function uploadSettings(
   return new Promise((resolve, reject) => {
     let cmd = `az rest --method put --headers "Content-Type=application/json" --uri "/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/staticSites/${staticSite}/config/functionappsettings?api-version=2019-12-01-preview" --body "${JSON.stringify(
       settings
-    ).split('"').join('\\"')}"`;
+    )
+      .split('"')
+      .join('\\"')}"`;
 
     exec(cmd, (error, stdout, stdin) => {
       if (error) reject(error);
