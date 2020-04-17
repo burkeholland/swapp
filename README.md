@@ -19,6 +19,12 @@ From the directory that contains your `local.settings.json` file...
 npx upload-settings
 ```
 
+If you are testing locally...
+
+```bash
+npx ~/path/to/static-apps-env
+```
+
 #### List settings
 
 From any directory
