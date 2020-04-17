@@ -2,15 +2,20 @@ const { exec } = require("child_process");
 const ora = require("ora");
 const chalk = require("chalk");
 const inquirer = require("inquirer");
+const args = require("args");
 
-let localSettingsFile = null;
+args.command("list", "List all of the application settings for a Static App", [
+  "l",
+]);
+
+const flags = args.parse(process.argv);
 
 const spinner = ora("Loading");
 
+let localSettingsFile = getLocalSettingsFile();
+
 async function main() {
   try {
-    localSettingsFile = require("./local.settings.json");
-
     // read the file for settings
     let settings = { properties: localSettingsFile.Values };
 
@@ -66,12 +71,22 @@ async function main() {
         console.log(`${chalk.green("✔︎")} Settings successfully uploaded`);
       }
     } else {
-      console.log(
-        "Could not find a local.settings.json file in the current directory"
+      handleError(
+        "The local.settings.json file is present, but no settings were found to upload."
       );
     }
   } catch (err) {
-    console.log(err);
+    handleError(err.message);
+  }
+}
+
+async function getLocalSettingsFile() {
+  try {
+    return require("./local.settings.json");
+  } catch (error) {
+    handleError(
+      "Cannot locate a local.settings.json file in the current directory"
+    );
   }
 }
 
@@ -129,6 +144,11 @@ async function uploadSettings(
       resolve(result);
     });
   });
+}
+
+function handleError(message) {
+  console.log(`${chalk.green("🔴")} ${message}`);
+  process.exit();
 }
 
 main();
