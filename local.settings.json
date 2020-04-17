@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "COSMOS_ENDPOINT": "https://theurlist.documents.azure.com:443/",
+    "COSMOS_ENDPOINT": "mah-database",
     "COSMOS_KEY": "mah-cosmos-key"
   },
   "Host": {
