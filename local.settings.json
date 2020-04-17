@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "COSMOS_ENDPOINT": "https://theurlist.documents.azure.com:443/",
+    "COSMOS_KEY": "J1Xq9ru3OPM6q9JhQMivQ2L2WeHmFXsOstEnX2qhqudYuhSwHOCBDhX9s490u5HmtgVSRSAnNcoNDEgaOp9WGw=="
+  },
+  "Host": {
+    "CORS": "*"
+  }
+}

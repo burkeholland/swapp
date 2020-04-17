@@ -1,0 +1,19 @@
+{
+  "name": "static-apps-env",
+  "version": "1.0.0",
+  "description": "Uploads your local.settings.json settings to a Static Apps instance",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Burke Holland",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "enquirer": "^2.3.5",
+    "inquirer": "^7.1.0",
+    "ora": "^4.0.3",
+    "prompt": "^1.0.0",
+    "prompt-list": "^3.2.0"
+  }
+}
