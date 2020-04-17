@@ -80,9 +80,9 @@ async function main() {
   }
 }
 
-async function getLocalSettingsFile() {
+function getLocalSettingsFile() {
   try {
-    return require("./local.settings.json");
+    return require(`${process.cwd()}/local.settings.json`);
   } catch (error) {
     handleError(
       "Cannot locate a local.settings.json file in the current directory"
