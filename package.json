@@ -1,5 +1,5 @@
 {
-  "name": "static-app-settings",
+  "name": "app-settings",
   "version": "1.0.0",
   "description": "Uploads your local.settings.json settings to a Static Apps instance",
   "main": "index.js",

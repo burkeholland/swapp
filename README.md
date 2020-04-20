@@ -1,4 +1,4 @@
-# upload-settings
+# appsettings
 
 Upload `local.settings.json` to a Static App.
 
@@ -16,15 +16,25 @@ This module requires that a `local.settings.json` file to be present in the dire
 From the directory that contains your `local.settings.json` file...
 
 ```bash
-npx upload-settings
+npx appsettings upload
 ```
 
 If you are testing locally...
 
 ```bash
-npx ~/path/to/static-apps-env
+npx ~/path/to/appsettings upload
 ```
 
 #### List settings
 
-From any directory
+From any directory...
+
+```bash
+npx appsettings list
+```
+
+If you are testing locally...
+
+```bash
+npx ~/path/to/appsettings list
+```
