@@ -10,7 +10,8 @@
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/index.js",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "args": ["list"]
     }
   ]
 }
