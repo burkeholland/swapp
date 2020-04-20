@@ -1,6 +1,5 @@
 const cp = require("child_process");
 const ora = require("ora");
-const config = require("../shared/config");
 
 const spinner = ora("Loading");
 
@@ -25,13 +24,6 @@ const az = {
   async getAppSettings(subscription, resourceGroup, appName) {
     spinner.text = "Getting application settings...";
     spinner.start();
-
-    const uri = config.buildUri(
-      subscription,
-      resourceGroup,
-      appName,
-      "listFunctionAppSettings"
-    );
 
     const cmd = `az rest --method post --uri "/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/staticSites/${appName}/listFunctionAppSettings?api-version=2019-12-01-preview"`;
     const result = await exec(cmd);
