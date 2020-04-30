@@ -2,6 +2,7 @@
 
 Upload `local.settings.json` to a Static App.
 
+
 ## Prerequisites
 
 - Azure CLI
