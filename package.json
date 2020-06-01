@@ -1,6 +1,6 @@
 {
   "name": "swapp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Uploads your local.settings.json settings to an Azure Static Web App",
   "main": "index.js",
   "author": "Burke Holland",
