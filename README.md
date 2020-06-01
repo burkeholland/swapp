@@ -1,10 +1,10 @@
-# appsettings
+# swapp
 
-Upload `local.settings.json` to a Static App.
+Upload `local.settings.json` to an [Azure Static Web App](aka.ms/swadocs).
 
 ## Prerequisites
 
-- Azure CLI
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=staticwebapps-npm-buhollan)
 - A `local.settings.json` file
 
 ### How to use
@@ -16,13 +16,7 @@ This module requires that a `local.settings.json` file to be present in the dire
 From the directory that contains your `local.settings.json` file...
 
 ```bash
-npx appsettings upload
-```
-
-If you are testing locally...
-
-```bash
-npx ~/path/to/appsettings upload
+npx swapp upload
 ```
 
 #### List settings
@@ -30,11 +24,5 @@ npx ~/path/to/appsettings upload
 From any directory...
 
 ```bash
-npx appsettings list
-```
-
-If you are testing locally...
-
-```bash
-npx ~/path/to/appsettings list
+npx swapp list
 ```

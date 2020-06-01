@@ -38,7 +38,7 @@ const az = {
       "Checking to see what Azure Subscriptions you have available...";
     spinner.start();
 
-    const result = await exec("az account list -o json");
+    const result = await exec("az account list --refresh -o json");
     const json = JSON.parse(result);
 
     const subscriptions = json.map((item) => {
