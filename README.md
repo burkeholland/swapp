@@ -2,6 +2,7 @@
 
 Upload `local.settings.json` to an [Azure Static Web App](aka.ms/swadocs).
 
+
 ## Prerequisites
 
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=staticwebapps-npm-buhollan)
