@@ -1,13 +1,13 @@
 {
   "name": "swapp",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Uploads your local.settings.json settings to an Azure Static Web App",
   "main": "index.js",
   "author": "Burke Holland",
   "license": "ISC",
   "homepage": "https://github.com/burkeholland/app-settings",
-  "scripts": {
-    "start": "node index.js"
+  "bin": {
+    "swapp": "./bin/swapp.js"
   },
   "repository": {
     "type": "git",
