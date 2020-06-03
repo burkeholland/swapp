@@ -22,14 +22,24 @@ const az = {
   },
 
   async getAppSettings(subscription, resourceGroup, appName) {
-    spinner.text = "Getting application settings...";
-    spinner.start();
+    try {
+      spinner.text = "Getting application settings...";
+      spinner.start();
 
-    const cmd = `az rest --method post --uri "/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/staticSites/${appName}/listFunctionAppSettings?api-version=2019-12-01-preview"`;
-    const result = await exec(cmd);
+      const cmd = `az rest --method post --uri "/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/staticSites/${appName}/listFunctionAppSettings?api-version=2019-12-01-preview"`;
+      const result = await exec(cmd);
 
-    spinner.stop();
+      spinner.stop();
 
+      return JSON.parse(result);
+    } catch (err) {
+      spinner.stop();
+      throw new Error(err);
+    }
+  },
+
+  async getCurrentSubscription() {
+    const result = await exec("az account show -o json");
     return JSON.parse(result);
   },
 

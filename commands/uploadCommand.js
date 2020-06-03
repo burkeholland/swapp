@@ -13,15 +13,34 @@ async function execute() {
     if (localSettingsFile.Values) {
       console.log(`${chalk.green("✔︎")} Found local.settings.json file...`);
 
-      const subscriptions = await az.getSubscriptions();
+      let subscriptionId;
+      const currentSubscription = await az.getCurrentSubscription();
+
+      let subPrompt = await inquirer.prompt([
+        {
+          type: "confirm",
+          name: "useDefaultSubscription",
+          message: `Using subscription: ${currentSubscription.name}. Select "n" to choose a different subscription`,
+        },
+      ]);
+
+      if (subPrompt.useDefaultSubscription) {
+        subscriptionId = currentSubscription.id;
+      } else {
+        const subscriptions = await az.getSubscriptions();
+        subPrompt = await inquirer.prompt([
+          {
+            type: "list",
+            name: "subscriptionId",
+            message: "Select a subscription",
+            choices: subscriptions,
+          },
+        ]);
+
+        subscriptionId = subPrompt.subscriptionId;
+      }
 
       let result = await inquirer.prompt([
-        {
-          type: "list",
-          name: "subscription",
-          message: "Select a subscription",
-          choices: subscriptions,
-        },
         {
           type: "input",
           name: "resourceGroup",
@@ -43,7 +62,7 @@ async function execute() {
 
       if (result.confirm) {
         await az.uploadAppSettings(
-          result.subscription,
+          subscriptionId,
           result.resourceGroup,
           result.appName,
           settings
