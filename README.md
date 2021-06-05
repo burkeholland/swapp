@@ -5,7 +5,7 @@ Upload `local.settings.json` to an [Azure Static Web App](aka.ms/swadocs).
 
 ## Prerequisites
 
-- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=staticwebapps-npm-buhollan)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=devcloud-0000-buhollan)
 - A `local.settings.json` file
 
 ### How to use
